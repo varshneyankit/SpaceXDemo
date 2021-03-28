@@ -5,7 +5,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import com.example.spacexdemo.pojos.CrewListModel;
 
@@ -19,9 +18,6 @@ public interface CrewDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllCrewData(List<CrewListModel> crewList);
-
-    @Update
-    void updateImageData(CrewListModel crewListModel);
 
     @Query("DELETE FROM crew_data")
     void deleteAllCrewData();

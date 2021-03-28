@@ -1,7 +1,6 @@
 package com.example.spacexdemo.ui.main;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -37,11 +36,6 @@ public class MainViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void setSpecficRow(CrewListModel model) {
-        Log.e("TAG", "setSpecficRow: " + model.getName() + " \n " + model.getImageUrl());
-        AppDatabase.databaseWriteExecutor.execute(() -> mDao.updateImageData(model));
-    }
-
     public void makeApiRequest() {
         Call<List<CrewListModel>> call = apiInterface.getAllCrew();
         call.enqueue(new Callback<List<CrewListModel>>() {
@@ -54,9 +48,7 @@ public class MainViewModel extends AndroidViewModel {
                             mDao.insertAllCrewData(response.body());
                         });
                     }
-
                 }
-
             }
 
             @Override
@@ -64,6 +56,5 @@ public class MainViewModel extends AndroidViewModel {
                 t.printStackTrace();
             }
         });
-
     }
 }
