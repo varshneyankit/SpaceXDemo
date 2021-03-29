@@ -14,17 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spacexdemo.R;
 import com.example.spacexdemo.pojos.CrewListModel;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class CrewListAdapter extends RecyclerView.Adapter<CrewListAdapter.ViewHolder> {
     private final Context context;
     private final List<CrewListModel> crewListResult;
+    private final List<File> fileList;
 
-    public CrewListAdapter(Context context, List<CrewListModel> crewListResult) {
+    public CrewListAdapter(Context context, List<CrewListModel> crewListResult, List<File> fileList) {
         this.context = context;
         this.crewListResult = crewListResult;
+        this.fileList = fileList;
     }
 
     @NonNull
@@ -40,7 +44,21 @@ public class CrewListAdapter extends RecyclerView.Adapter<CrewListAdapter.ViewHo
         holder.crewNameText.setText(crewList.getName());
         holder.crewAgencyText.setText(crewList.getAgency());
         holder.crewStatusText.setText(crewList.getStatus());
-        Picasso.get().load(crewList.getImageUrl()).into(holder.crewImage);
+        Picasso.get().load(crewList.getImageUrl()).into(holder.crewImage, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                for (File file : fileList) {
+                    if (file.getName().contains(crewList.getId())) {
+                        Picasso.get().load(file).into(holder.crewImage);
+                    }
+                }
+            }
+        });
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(crewList.getWikipediaUrl()));

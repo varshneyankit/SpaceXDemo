@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = "crew_data")
 public class CrewListModel {
 
@@ -19,10 +21,13 @@ public class CrewListModel {
 
     @SerializedName("agency")
     private final String agency;
+
     @SerializedName("wikipedia")
     private final String wikipediaUrl;
+
     @SerializedName("status")
     private final String status;
+
     @SerializedName("image")
     private String imageUrl;
 
@@ -35,6 +40,7 @@ public class CrewListModel {
         this.status = status;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }
